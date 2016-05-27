@@ -23,10 +23,7 @@ namespace RunningStatTracker
         public string Gender { get { return gender; } }
 
         //add run
-        public void AddRun(double min, double sec, double distance)
-        {
-            list_of_runs.Add(new Run(DateTime.Now, (min * 60) + sec, distance));
-        }
+        public void AddRun(double min, double sec, double distance) { list_of_runs.Add(new Run(DateTime.Now, (min * 60) + sec, distance)); }
         //get run by date
         public Run GetRunByDate(DateTime date)
         {
@@ -34,6 +31,20 @@ namespace RunningStatTracker
             foreach(Run x in list_of_runs)
             {
                 if(date == x.Date)
+                {
+                    run = x;
+                    break;
+                }
+            }
+            return run;
+        }
+        //get run by day of week
+        public Run GetRunByDay(DayOfWeek date)
+        {
+            Run run = null;
+            foreach (Run x in list_of_runs)
+            {
+                if (date == x.Day_of_week)
                 {
                     run = x;
                     break;
@@ -62,8 +73,18 @@ namespace RunningStatTracker
             return total;
         }
         //get mile average for a run
-        //public 
+        public double MileAverageForRun(DateTime date) { return GetRunByDate(date).MileAverage(); } 
         //get day of week average
+        public double DayOfWeekAvg(DayOfWeek date)
+        {
+            double[] averages = new double[list_of_runs.Count];
+            double dayAverage = 0;
+            foreach(double average in averages)
+            {
+                dayAverage += average;
+            }
+            return dayAverage / averages.Length;
+        }
         //get all run data
         //get all time stats
         //get average speed

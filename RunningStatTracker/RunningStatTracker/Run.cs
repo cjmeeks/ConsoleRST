@@ -24,5 +24,12 @@ namespace RunningStatTracker
         public DayOfWeek Day_of_week{ get{return time_data.DayOfWeek;} }
         public TimeSpan Time_of_day{ get{return time_data.TimeOfDay;} }
         public DateTime Date { get{return time_data.Date;} }
+
+        public double MileAverage()
+        {
+            return time_of_run / distance;
+        }
+
+       
     }
 }
