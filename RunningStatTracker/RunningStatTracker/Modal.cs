@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningStatTracker
 {
-    class Program
+    class Modal
     {
-        static void Main(string[] args)
-        {
-            
-        }
     }
 }

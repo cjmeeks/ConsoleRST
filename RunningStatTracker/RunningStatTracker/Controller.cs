@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace RunningStatTracker
 {
-    class Program
+    class Controller
     {
-        static void Main(string[] args)
-        {
-            
-        }
     }
 }
