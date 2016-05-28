@@ -68,25 +68,65 @@ namespace RunningStatTracker
             double total = 0;
             foreach (Run run in list_of_runs)
             {
+                total += run.Distance;
+            }
+            return total;
+        }
+        //get total time for all the runs
+        public double TotalTime()
+        {
+            double total = 0;
+            foreach (Run run in list_of_runs)
+            {
                 total += run.Time_of_run;
             }
             return total;
         }
         //get mile average for a run
-        public double MileAverageForRun(DateTime date) { return GetRunByDate(date).MileAverage(); } 
-        //get day of week average
-        public double DayOfWeekAvg(DayOfWeek date)
+        public double MileAverageForRun(DateTime date){return GetRunByDate(date).MileAverage();}
+
+        //get overall mile average
+        public double TotalMileAverage(){return GetMileAverages().Average();}
+        //get overall speed average
+        public double TotalSpeedAverage(){return GetSpeedAverages().Average();}
+        //get day of week average (needs work)
+        /*public double DayOfWeekAvg(DayOfWeek date)
         {
-            double[] averages = new double[list_of_runs.Count];
+            double[] averages = GetMileAverages();
             double dayAverage = 0;
             foreach(double average in averages)
             {
                 dayAverage += average;
             }
             return dayAverage / averages.Length;
+        }*/
+        //get average speed for 1 run
+        public double AverageSpeedOneRun(DateTime date) { return GetRunByDate(date).SpeedAverage(); }
+        //convert for output
+        public TimeSpan ConvertToMinSec(double seconds) { return TimeSpan.FromSeconds(seconds); }
+        //gets mile averages
+        public double[] GetMileAverages()
+        {
+            double[] averages = new double[list_of_runs.Count];
+            int i = 0;
+            foreach(Run run in list_of_runs)
+            {
+                averages[i] = run.MileAverage();
+                i++;
+            }
+            return averages;
         }
-        //get all run data
-        //get all time stats
-        //get average speed
+        //get Speed Averages
+        public double[] GetSpeedAverages()
+        {
+            double[] averages = new double[list_of_runs.Count];
+            int i = 0;
+            foreach(Run run in list_of_runs)
+            {
+                averages[i] = run.SpeedAverage();
+                i++;
+            }
+            return averages;
+        }
     }
 }
