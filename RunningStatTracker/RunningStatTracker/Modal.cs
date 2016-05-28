@@ -17,7 +17,14 @@ namespace RunningStatTracker
 
         public void AddRunner(string name, string gender)
         {
-
+            runners.Add(name, new Runner(name, gender));
         }
+
+        public Runner GetRunnerByName(string name)
+        {
+            return runners[name];
+        }
+
+        
     }
 }
