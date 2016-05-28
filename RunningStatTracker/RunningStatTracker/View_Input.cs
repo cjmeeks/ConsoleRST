@@ -8,5 +8,8 @@ namespace RunningStatTracker
 {
     class View_Input
     {
+        public View_Input(){}
+
+
     }
 }

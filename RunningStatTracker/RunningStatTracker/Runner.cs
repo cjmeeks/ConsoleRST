@@ -24,6 +24,7 @@ namespace RunningStatTracker
 
         //add run
         public void AddRun(double min, double sec, double distance) { list_of_runs.Add(new Run(DateTime.Now, (min * 60) + sec, distance)); }
+
         //get run by date
         public Run GetRunByDate(DateTime date)
         {
@@ -38,6 +39,7 @@ namespace RunningStatTracker
             }
             return run;
         }
+
         //get run by day of week
         public Run GetRunByDay(DayOfWeek date)
         {
@@ -52,6 +54,7 @@ namespace RunningStatTracker
             }
             return run;
         }
+
         //get total time ran
         public double TotalTimeRun()
         {
@@ -62,6 +65,7 @@ namespace RunningStatTracker
             }
             return total;
         }
+
         //get total distance
         public double TotalDistance()
         {
@@ -72,6 +76,7 @@ namespace RunningStatTracker
             }
             return total;
         }
+
         //get total time for all the runs
         public double TotalTime()
         {
@@ -82,13 +87,16 @@ namespace RunningStatTracker
             }
             return total;
         }
+
         //get mile average for a run
         public double MileAverageForRun(DateTime date){return GetRunByDate(date).MileAverage();}
 
         //get overall mile average
         public double TotalMileAverage(){return GetMileAverages().Average();}
+
         //get overall speed average
         public double TotalSpeedAverage(){return GetSpeedAverages().Average();}
+
         //get day of week average (needs work)
         /*public double DayOfWeekAvg(DayOfWeek date)
         {
@@ -100,9 +108,13 @@ namespace RunningStatTracker
             }
             return dayAverage / averages.Length;
         }*/
+
         //get average speed for 1 run
         public double AverageSpeedOneRun(DateTime date) { return GetRunByDate(date).SpeedAverage(); }
+
         //convert for output
+        //takes in seconds
+        //converts to Min:sec
         public TimeSpan ConvertToMinSec(double seconds) { return TimeSpan.FromSeconds(seconds); }
         //gets mile averages
         public double[] GetMileAverages()
@@ -116,6 +128,7 @@ namespace RunningStatTracker
             }
             return averages;
         }
+
         //get Speed Averages
         public double[] GetSpeedAverages()
         {

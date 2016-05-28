@@ -24,7 +24,15 @@ namespace RunningStatTracker
         {
             return runners[name];
         }
+        public Runner[] GetAllRunners()
+        {
+            Runner[] tempRunners = new Runner[runners.Values.Count];
+            runners.Values.CopyTo(tempRunners, 0);
+            return tempRunners;
+        }
 
-        
+
+
+
     }
 }
