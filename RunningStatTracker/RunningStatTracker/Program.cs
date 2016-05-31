@@ -10,7 +10,8 @@ namespace RunningStatTracker
     {
         static void Main(string[] args)
         {
-            
+            Controller control = new Controller();
+            control.Go();
         }
     }
 }

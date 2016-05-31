@@ -21,9 +21,10 @@ namespace RunningStatTracker
 
         public string Name { get { return name; } }
         public string Gender { get { return gender; } }
+        public List<Run> Runs{ get { return list_of_runs; } }
 
         //add run
-        public void AddRun(double min, double sec, double distance) { list_of_runs.Add(new Run(DateTime.Now, (min * 60) + sec, distance)); }
+        public void AddRun(Run run) { list_of_runs.Add(run); }
 
         //get run by date
         public Run GetRunByDate(DateTime date)
@@ -61,7 +62,7 @@ namespace RunningStatTracker
             double total = 0;
             foreach(Run run in list_of_runs)
             {
-                total += run.Distance;
+                total += run.Time_of_run;
             }
             return total;
         }
@@ -114,8 +115,7 @@ namespace RunningStatTracker
 
         //convert for output
         //takes in seconds
-        //converts to Min:sec
-        public TimeSpan ConvertToMinSec(double seconds) { return TimeSpan.FromSeconds(seconds); }
+        
         //gets mile averages
         public double[] GetMileAverages()
         {
