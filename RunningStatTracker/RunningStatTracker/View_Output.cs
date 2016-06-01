@@ -15,46 +15,70 @@ namespace RunningStatTracker
 
         public void DisplayMainMenu()
         {
+            Console.WriteLine("Main Menu");
             Console.WriteLine("1) Login");
             Console.WriteLine("2) Add Runner");
             Console.WriteLine("3) Display Runners");
             Console.WriteLine("4) Exit");
+
         }
 
         public void DisplayRunnerMenu()
         {
+            Console.WriteLine("Runner Menu");
             Console.WriteLine("1) Add Run");
             Console.WriteLine("2) Display Runs");
-            Console.WriteLine("3) Exit to Main Menu");
+            Console.WriteLine("3) Display Run");
+            Console.WriteLine("4) Display Run average by day of the week");
+            Console.WriteLine("5) Exit to Main Menu");
+
         }
 
-        public void DisplayRunners()
+        public void DisplayRunners(Runner[] runners)
         {
             int runnerNum = 1;
-            Runner[] runners = modal.GetAllRunners();
             Console.WriteLine("\n" + "\n");
             Console.WriteLine("Runners----");
             foreach (Runner runner in runners)
             {
-                Console.WriteLine(runnerNum + ": Name: " + runner.Name + " Gender: " + runner.Gender);
+                Console.Write(runnerNum + ":");
+                Console.WriteLine(runner.ToString());
                 runnerNum++;
             }
             Console.WriteLine("\n" + "\n");
         }
 
+        //need
         public void DisplayRuns(ref Runner runner)
         {
             int Run_Number = 1;
             Console.WriteLine("\n" + "\n");
             Console.WriteLine("Runs----");
-            foreach (Run run in runner.Runs)
+            foreach (RunEvent run in runner.Runs)
             {
-                
-                Console.WriteLine(Run_Number + ")   Date: " + run.Date.ToString("M/d/yyyy") +"   Distance: " + run.Distance.ToString("F2") + " Miles   Time: " + modal.ConvertToMinSec(run.Time_of_run).ToString("mm:ss") + "   Average Mile Time: " + modal.ConvertToMinSec(run.MileAverage()).ToString("mm:ss") + "   Average Speed: " + run.SpeedAverage().ToString("F2") + "MPH");
+
+                Console.Write(Run_Number + ")");
+                Console.WriteLine(run.ToString());
                 Run_Number++;
             }
-            Console.WriteLine("      Total Time Ran: "  + modal.ConvertToMinSec(runner.TotalTimeRun()).ToString("mm:ss") + "  Total Distance Ran: " + runner.TotalDistance().ToString("F2") + " Miles  Total Mile Average Time: " + modal.ConvertToMinSec(runner.TotalMileAverage()).ToString("mm:ss") +  "  Total Speed Average: " + runner.TotalSpeedAverage().ToString("F2") + "MPH");
+            Console.WriteLine(modal.Totals(ref runner));
+            Console.WriteLine("\n");
+
+        }
+
+
+        public void DisplayRunByDate(DateTime date, Runner runner)
+        {
             Console.WriteLine("\n" + "\n");
+            RunEvent run = modal.GetRunByDate(date, ref runner);
+            Console.Write(run.ToString());
+            Console.WriteLine("\n" + "\n");
+        }
+
+        //need
+        public void DisplayRunByDayOfWeek(DayOfWeek day, Runner runner)
+        {
+            Console.WriteLine(day.ToString() + modal.DisplayDayOfWeekAverages(day, ref runner));
         }
 
     }

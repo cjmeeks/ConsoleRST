@@ -11,47 +11,141 @@ namespace RunningStatTracker
     {
         private Modal modal;
         public View_Input(Modal modalIn) { modal = modalIn; }
-        //error check
-        public int AskForMenuOption()
+
+        //done
+        public int AskForMainMenuOption()
         {
-            Console.Write("Menu Option: ");
-            int option = Convert.ToInt32(Console.ReadLine());
+            bool CorrectInput = false;
+            int option = 0;
+            while(!CorrectInput)
+            {
+                Console.Write("Menu Option: ");
+                option = Convert.ToInt32(Console.ReadLine().Trim());
+                if (option > 0 && option < 5) { CorrectInput = true; break; }
+                Console.WriteLine("Please enter 1-4....");
+            }
+            //Console.WriteLine("\n");
             return option;
         }
-        //error check
+
+        public int AskForRunnerMenuOption()
+        {
+            bool CorrectInput = false;
+            int option = 0;
+            while(!CorrectInput)
+            {
+                Console.Write("Menu Option: ");
+                option = Convert.ToInt32(Console.ReadLine().Trim());
+                if (option > 0 && option < 6) { CorrectInput = true; break; }
+                Console.WriteLine("Please enter 1-4....");
+            }
+            //Console.WriteLine("\n");
+            return option;
+        }
+
+        //done
         public string AskForName()
         {
             Console.Write("Name: ");
             return Console.ReadLine();
         }
-        //error check
+
+        //done
         public string AskForGender()
         {
-            Console.Write("Gender(M/F): ");
-            return Console.ReadLine().ToUpper().Trim();
+            bool correctInput = false;
+            string gender = " ";
+            while (!correctInput)
+            {
+                Console.Write("Gender(M/F): ");
+                gender = Console.ReadLine().ToUpper().Trim();
+                if(gender.Equals("M") || gender.Equals("F")) { correctInput = true; break; }
+                Console.WriteLine("Please enter M for male or F for female");
+
+            }
+            return gender;
         }
 
-        //error check
+        //done
         public DateTime AskForDate()
         {
-            Console.Write("Date(mm/dd/yyyy): ");
-            string date = Console.ReadLine().Trim();
-            string[] datearray = date.Split('/');
+            bool correctInput = false;
+            string[] datearray = null;
+            while (!correctInput)
+            {
+                Console.Write("Date(mm/dd/yyyy): ");
+                string date = Console.ReadLine().Trim();
+                datearray = date.Split('/');
+                if(datearray.Length == 3) { correctInput = true; break; }
+                Console.WriteLine("Please enter date in the correct format");
+            }
+            Console.WriteLine();
             return new DateTime(Convert.ToInt32(datearray[2]), Convert.ToInt32(datearray[0]), Convert.ToInt32(datearray[1]));
         }
 
-        public void AskForRunner() { modal.AddRunner(AskForName(), AskForGender()); }
+        //Asks for runner info to add
+        public void AskForNewRunner() { modal.AddRunner(AskForName(), AskForGender()); Console.WriteLine("\n"); }
+
+        //done
+        public bool Login(ref Runner runner)
+        {
+            if (modal.Runners.TryGetValue(AskForName(), out runner)) return true;
+            else return false;
+        }
+
+        //done
+        public RunEvent AskForNewRun()
+        {
+
+            DateTime date = AskForDate();
+            bool correctInput = false;
+            string[] time = null;
+            while (!correctInput)
+            {
+                Console.Write("Time Of Run(min:sec): ");
+                time = Console.ReadLine().Trim().Split(':');
+                if(time.Length == 2) { correctInput = true; break; }
+                Console.WriteLine("Please enter time in correct format (Min:Sec");
+            }
+            double timeofrun = (Convert.ToDouble(time[0]) * 60) + Convert.ToDouble(time[1]);
+            correctInput = false;
+            double distance = 0;
+            while (!correctInput)
+            {
+                Console.Write("Miles ran: ");
+                distance = Convert.ToDouble(Console.ReadLine().Trim());
+                if(distance > 0 && distance < 30) { correctInput = true; break; }
+                Console.WriteLine("Ya right you didnt run {0} miles", distance);
+            }
+
+            Console.WriteLine();
+            return new RunEvent(date, timeofrun, distance);
+        }
 
         //error check
-        public Run AskForRun()
+        public DayOfWeek AskForDayOfWeek()
         {
-                DateTime date = AskForDate();
-                Console.Write("Time Of Run(min:sec): ");
-                string[] time = Console.ReadLine().Trim().Split(':');
-                double timeofrun = (Convert.ToDouble(time[0]) * 60) + Convert.ToDouble(time[1]);
-                Console.Write("Miles ran: ");
-                double distance = Convert.ToDouble(Console.ReadLine().Trim());
-                return new Run(date, timeofrun, distance);
+            Console.Write("Day of Week(m/tu/w/th/f/sa/sun): ");
+            string day = Console.ReadLine().Trim().ToLower();
+            Console.WriteLine();
+            switch(day)
+            {
+                case "m":
+                    return DayOfWeek.Monday;
+                case "tu":
+                    return DayOfWeek.Tuesday;
+                case "w":
+                    return DayOfWeek.Wednesday;
+                case "th":
+                    return DayOfWeek.Thursday;
+                case "f":
+                    return DayOfWeek.Friday;
+                case "sa":
+                    return DayOfWeek.Saturday;
+                case "sun":
+                    return DayOfWeek.Sunday;
+            }
+           return DayOfWeek.Monday;
         }
 
     }

@@ -27,7 +27,7 @@ namespace RunningStatTracker
             while(!exitCode)
             {
                 output.DisplayMainMenu();
-                option = input.AskForMenuOption();
+                option = input.AskForMainMenuOption();
                 MainMenu(option, ref exitCode);
             }
         }
@@ -37,19 +37,24 @@ namespace RunningStatTracker
             switch (option)
             {
                 case 1:
-                    string name = input.AskForName();
-                    bool exit = false;
-                    while(!exit)
+                    Runner runner = null;
+                    bool login = input.Login(ref runner);
+                    if (!login) Console.WriteLine("login failed \n");
+                    else
                     {
-                        output.DisplayRunnerMenu();
-                        RunnerMenu(name, input.AskForMenuOption(), ref exit);
+                        bool exit = false;
+                        while (!exit)
+                        {
+                            output.DisplayRunnerMenu();
+                            RunnerMenu(ref runner, input.AskForRunnerMenuOption(), ref exit);
+                        }
                     }
                     break;
                 case 2:
-                    input.AskForRunner();
+                    input.AskForNewRunner();
                     break;
                 case 3:
-                    output.DisplayRunners();
+                    output.DisplayRunners(modal.GetAllRunners());
                     break;
                 case 4:
                     exitCode = true;
@@ -57,18 +62,24 @@ namespace RunningStatTracker
             }
         }
 
-        public void RunnerMenu(string name, int option, ref bool exitCode)
+        public void RunnerMenu(ref Runner runner, int option, ref bool exitCode)
         {
-            Runner runner = modal.GetRunnerByName(name);
+
             switch(option)
             {
                 case 1:
-                    runner.AddRun(input.AskForRun());
+                    runner.AddRun(input.AskForNewRun());
                     break;
                 case 2:
                     output.DisplayRuns(ref runner);
                     break;
                 case 3:
+                    output.DisplayRunByDate(input.AskForDate(), runner);
+                    break;
+                case 4:
+                    output.DisplayRunByDayOfWeek(input.AskForDayOfWeek(), runner);
+                    break;
+                case 5:
                     exitCode = true;
                     break;
             }
