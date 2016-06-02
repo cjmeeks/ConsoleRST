@@ -30,7 +30,6 @@ namespace RunningStatTracker
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat(" Name: {0}", name);
-            sb.Append(name);
             sb.AppendFormat(" - Gender: %s", gender);
             sb.AppendFormat(" - #Runs = {0}", list_of_runs.Count);
             return sb.ToString;

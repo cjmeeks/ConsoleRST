@@ -10,44 +10,38 @@ namespace RunningStatTracker
         {
             public Util(){}
 
-            public double TotalTimeRun(IEnumerable runs)
+            public double TotalTimeRun(IEnumerable<RunEvent> runs)
             {
               return runs.Sum(x => x.Time_of_run);
             }
 
-            public double TotalDistance(IEnumerable runs)
+            public double TotalDistance(IEnumerable<RunEvent> runs)
             {
                 return runs.Sum(x => x.Distance);
             }
 
-            public double MileAverageForRun(DateTime date, ref Runner runner){return GetRunByDate(date, ref  runner).MileAverage;}
+            public double TotalMileAverage(IEnumerable<RunEvent> runs) {return runs.Average(x => x.MileAverage;}
 
-            public double TotalMileAverage(IEnumerable runs) {return runs.Average(x => x.MileAverage;}
+            public double TotalSpeedAverage(IEnumerable<RunEvent> runs) {return runs.Average(x => x.SpeedAverage;}
 
-            public double TotalSpeedAverage(IEnumerable runs) {return runs.Average(x => x.SpeedAverage;}
-
-            public double DayOfWeekMileAvg(IEnumerable runs)
+            public double DayOfWeekMileAvg(IEnumerable<RunEvent> runs)
             {
-                return runs.Average(x => x.MileAverage;
+                return runs.Average(x => x.MileAverage);
             }
 
-            public double DayOfWeekSpeedAvg(IEnumerable runs)
+            public double DayOfWeekSpeedAvg(IEnumerable<RunEvent> runs)
             {
-                return runs.Average(x => x.SpeedAverage;)
+                return runs.Average(x => x.SpeedAverage);
             }
 
-            public IEnumerable GetRunsByDayOfWeek(DayOfWeek day, List<RunEvent> runs)
-            {
-                return runs.Where(x => x.Date.DayOfWeek == day);
-            }
+            //
+            public double MileAverageByDate(DateTime date, IEnumerable<RunEvent> runs){return TotalMileAverage(GetRunsByDate(date, runs));}
 
-            //ref runner
-            public double AverageSpeedOneRun(DateTime date, ref Runner runner) { return GetRunByDate(date, ref runner).SpeedAverage; }
+            public double AverageSpeedByDate(DateTime date, IEnumerable<RunEvent> runs) { return TotalSpeedAverage(GetRunsByDate(date, runs));
 
-            //ref runner
             public DateTime ConvertToMinSec(double seconds) { return new DateTime(TimeSpan.FromSeconds(seconds).Ticks); }
 
-            public static double StandardDeviation(IEnumerable values)
+            public static double StandardDeviation(IEnumerable<double> values)
             {
                 return Math.Sqrt(values.Average(v=>Math.Pow(v-values.Average(),2)));
             }

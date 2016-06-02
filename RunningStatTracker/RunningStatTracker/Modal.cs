@@ -19,49 +19,26 @@ namespace RunningStatTracker
 
         public Runner GetRunnerByName(string name) { return runners[name]; }
 
-        public IEnumerable GetAllRunners()
+        public IEnumerable<Runner> GetAllRunners()
         {
-            retrn runners.values;
+            return runners.Values;
         }
 
+        public IEnumerable<RunEvent> GetRunsByDayOfWeek(DayOfWeek day, IEnumerable<RunEvent> runs)
+        {
+            return runs.Where(x => x.Date.DayOfWeek == day);
+        }
 
-        public IEnumerable GetRunsByDate(DateTime date, IEnumerable runs)
+        public IEnumerable<RunEvent> GetRunsByDate(DateTime date, IEnumerable<RunEvent> runs)
         {
             return runs.Where(x => x.Date == date);
         }
 
-
-        public IEnumerable GetRunsByDay(DayOfWeek day, IEnumerable runs)
+        public IEnumerable<RunEvent> GetRunsByDay(DayOfWeek day, IEnumerable<RunEvent> runs)
         {
             return runs.Where(x => x.Date.DayOfWeek == day);
         }
-        //
-        /*public double[] GetMileAverages(List<RunEvent> runs)
-        {
-            double[] averages = new double[runs.Count];
-            int i = 0;
-            foreach(RunEvent run in runs)
-            {
-                averages[i] = run.MileAverage();
-                i++;
-            }
-            return averages;
-        }*/
 
-        //
-      /*  public double[] GetSpeedAverages(List<RunEvent> runs)
-        {
-            double[] averages = new double[runs.Count];
-            int i = 0;
-            foreach(RunEvent run in runs)
-            {
-                averages[i] = run.SpeedAverage();
-                i++;
-            }
-            return averages;
-        }*/
-
-        
 
     }
 }

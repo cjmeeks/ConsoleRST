@@ -34,7 +34,7 @@ namespace RunningStatTracker
         }
 
         //
-        public void DisplayRunners(IEnumerable runners)
+        public void DisplayRunners(IEnumerable<Runner> runners)
         {
             int runnerNum = 1;
             Console.WriteLine("\n" + "\n");
@@ -48,7 +48,7 @@ namespace RunningStatTracker
         }
 
         //
-        public void DisplayRuns(IEnumerable runs)
+        public void DisplayRuns(IEnumerable<RunEvent> runs)
         {
             int Run_Number = 1;
             Console.WriteLine("\n" + "\n");
@@ -64,7 +64,7 @@ namespace RunningStatTracker
             Console.WriteLine();
         }
         //
-        public void DisplayRunByDate(DateTime date, IEnumerable runs)
+        public void DisplayRunByDate(DateTime date, IEnumerable<RunEvent> runs)
         {
             Console.WriteLine();
             runs.ToList().ForEach(x => {
@@ -74,7 +74,7 @@ namespace RunningStatTracker
         }
 
         //
-        public void DisplayRunsByDayOfWeek(DayOfWeek day, IEnumerable runs)
+        public void DisplayRunsByDayOfWeek(DayOfWeek day, IEnumerable<RunEvent> runs)
         {
             Console.WriteLine(day.ToString());
             runs.ToList().ForEach(x => { Console.WriteLine(x.ToString()); });
@@ -85,7 +85,7 @@ namespace RunningStatTracker
         }
 
         //%string
-        public string DisplayTotals(IEnumerable runs)
+        public string DisplayTotals(IEnumerable<RunEvent> runs)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("      Total Time Ran: {0}", ConvertToMinSec(TotalTimeRun(runs)).ToString("mm:ss"));
@@ -97,7 +97,7 @@ namespace RunningStatTracker
         }
 
        //
-        public string DisplayDayOfWeekAverages(DayOfWeek day, IEnumerable runs)
+        public string DisplayDayOfWeekAverages(DayOfWeek day, IEnumerable<RunEvent> runs)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat(" Average Mile Time: {0}", ConvertToMinSec(DayOfWeekMileAvg(GetRunsByDayOfWeek(day, runs))).ToString("mm:ss"));
@@ -107,7 +107,7 @@ namespace RunningStatTracker
         }
 
         //%string
-        public string DisplaySDTotals(IEnumerable runs)
+        public string DisplaySDTotals(IEnumerable<RunEvent> runs)
         {
             double sdMile = StandardDeviation(GetMileAverages(runs));
             double sdSpeed = StandardDeviation(GetSpeedAverages(runs));
@@ -120,7 +120,7 @@ namespace RunningStatTracker
             return sb.ToString();
         }
         //still need %whatever for strings
-        public string DisplayDayOfWeekSD(IEnumerable runs)
+        public string DisplayDayOfWeekSD(IEnumerable<RunEvent> runs)
         {
 
             double sdmile = StandardDeviation(runs.Select(x => x.MileAverage));
