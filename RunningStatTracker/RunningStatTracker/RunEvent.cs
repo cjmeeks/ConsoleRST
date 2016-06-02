@@ -12,27 +12,44 @@ namespace RunningStatTracker
         private double time_of_run;//seconds
         private DateTime time_data;
         private string terrain;
+        private double mileAverage;
+        private double speedAverage;
 
-        public RunEvent(DateTime time, double timeofrun, double dis, string terr) { distance = dis; time_data = time; time_of_run = timeofrun; terrain = terr; }
+        public RunEvent(DateTime time, double timeofrun, double dis, string terr)
+        {
+          distance = dis;
+          time_data = time;
+          time_of_run = timeofrun;
+          terrain = terr;
+          mileAverage = time_of_run/distance;
+          speedAverage = 3600/mileAverage;
+        }
 
         //Properties
         public double Distance => distance;
         public double Time_of_run => time_of_run;
-        public DayOfWeek Day_of_week{get{return time_data.DayOfWeek;}}
-        public TimeSpan Time_of_day{get{return time_data.TimeOfDay;}}
-        public DateTime Date {get{return time_data.Date;}}
+
+        public DayOfWeek Day_of_week => time_data.DayOfWeek;
+        public TimeSpan Time_of_day => time_data.TimeOfDay;
+        public DateTime Date => time_data;
         public string Terrain => terrain;
-
-        //Methods
-        public double MileAverage(){return time_of_run / distance;}
-
-        public double SpeedAverage(){return 3600/MileAverage();}
+        public double MileAverage => mileAverage;
+        public double SpeedAverage => speedAverage;
 
         public DateTime ConvertToMinSec(double seconds) { return new DateTime(TimeSpan.FromSeconds(seconds).Ticks); }
 
+        //still needs %string thing
         public override string ToString()
         {
-            return " Date: " + time_data.ToString("MM/dd/yyyy") +"   Distance: " + distance.ToString("F2") + " Miles   Time: " + ConvertToMinSec(time_of_run).ToString("mm:ss") + "   Average Mile Time: " + ConvertToMinSec(MileAverage()).ToString("mm:ss") + "   Average Speed: " + SpeedAverage().ToString("F2") + "MPH" + "  Terrain: " + terrain;
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(" Date: {0}", time_data.ToString("MM/dd/yyyy"));
+            sb.AppendFormat("   Distance: {0}",distance.ToString("F2"));
+            sb.AppendFormat(" Miles   Time: {0}", ConvertToMinSec(time_of_run).ToString("mm:ss"));
+            sb.AppendFormat("   Average Mile Time: {0}", ConvertToMinSec(MileAverage()).ToString("mm:ss"));
+            sb.AppendFormat("   Average Speed: {0}", SpeedAverage().ToString("F2"));
+            sb.Append("MPH");
+            sb.AppendFormat("  Terrain: {0}", terrain);
+            return sb.ToString();
         }
 
     }

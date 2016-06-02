@@ -31,62 +31,107 @@ namespace RunningStatTracker
             Console.WriteLine("3) Display Run");
             Console.WriteLine("4) Display Run average by day of the week");
             Console.WriteLine("5) Exit to Main Menu");
-
         }
 
-        public void DisplayRunners(Runner[] runners)
+        //
+        public void DisplayRunners(IEnumerable runners)
         {
             int runnerNum = 1;
             Console.WriteLine("\n" + "\n");
             Console.WriteLine("Runners----");
-            foreach (Runner runner in runners)
-            {
-                Console.Write(runnerNum + ":");
-                Console.WriteLine(runner.ToString());
+            runners.ToList().ForEach(x => {
+                Console.Write("{0}:", runnerNum);
+                Console.WriteLine(x.ToString());
                 runnerNum++;
-            }
+                });
             Console.WriteLine();
         }
 
-        
-        public void DisplayRuns(ref Runner runner)
+        //
+        public void DisplayRuns(IEnumerable runs)
         {
             int Run_Number = 1;
             Console.WriteLine("\n" + "\n");
             Console.WriteLine("Runs----");
-            foreach (RunEvent run in runner.Runs)
-            {
-
-                Console.Write(Run_Number + ")");
-                Console.WriteLine(run.ToString());
+            runs.ToList().ForEach(x => {
+                Console.Write("{0})", Run_Number);
+                Console.WriteLine(x.ToString());
                 Run_Number++;
-            }
+                });
             Console.WriteLine("Totals**");
             Console.WriteLine(modal.Totals(ref runner));
             Console.Write(modal.SDTotals(ref runner));
             Console.WriteLine();
-
         }
-
-
-        public void DisplayRunByDate(DateTime date, ref Runner runner)
+        //
+        public void DisplayRunByDate(DateTime date, IEnumerable runs)
         {
             Console.WriteLine();
-            RunEvent run = modal.GetRunByDate(date, ref runner);
-            Console.Write(run.ToString());
+            runs.ToList().ForEach(x => {
+                Console.WriteLine(x.ToString());
+                });
             Console.WriteLine();
         }
 
-
-        public void DisplayRunsByDayOfWeek(DayOfWeek day, List<RunEvent> runs)
+        //
+        public void DisplayRunsByDayOfWeek(DayOfWeek day, IEnumerable runs)
         {
             Console.WriteLine(day.ToString());
-            foreach(RunEvent run in runs)
-            {
-                Console.WriteLine(run.ToString());
-            }
-            Console.WriteLine("  --" + modal.DayOfWeekAverages(day, runs)+"\n" + modal.DayOfWeekSD(modal.GetRunsByDayOfWeek(day, runs)));
+            runs.ToList().ForEach(x => { Console.WriteLine(x.ToString()); });
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(" --{0}\n", modal.DayOfWeekAverages(day, runs));
+            sb.Append(modal.DayOfWeekSD(modal.GetRunsByDayOfWeek(day, runs)));
+            Console.WriteLine(sb.ToString());
+        }
 
+        //%string
+        public string DisplayTotals(IEnumerable runs)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("      Total Time Ran: {0}", ConvertToMinSec(TotalTimeRun(runs)).ToString("mm:ss"));
+            sb.AppendFormat(" - Total Distance Ran: {0}", TotalDistance(runs).ToString("F2"));
+            sb.AppendFormat(" - Miles  Total Mile Average Time: {0}", ConvertToMinSec(TotalMileAverage(runs)).ToString("mm:ss"));
+            sb.AppendFormat(" - Total Speed Average: {0}", TotalSpeedAverage(runs).ToString("F2"));
+            sb.Append("MPH");
+            return sb.ToString();
+        }
+
+       //
+        public string DisplayDayOfWeekAverages(DayOfWeek day, IEnumerable runs)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(" Average Mile Time: {0}", ConvertToMinSec(DayOfWeekMileAvg(GetRunsByDayOfWeek(day, runs))).ToString("mm:ss"));
+            sb.AppendFormat("  Average Speed: {0}", DayOfWeekSpeedAvg(GetRunsByDayOfWeek(day, runs)).ToString("F2"));
+            sb.Append("MPH\n");
+            return sb.ToString;
+        }
+
+        //%string
+        public string DisplaySDTotals(IEnumerable runs)
+        {
+            double sdMile = StandardDeviation(GetMileAverages(runs));
+            double sdSpeed = StandardDeviation(GetSpeedAverages(runs));
+            StringBuilder sb = StringBuilder();
+            sb.AppendFormat("      Usual mile time between {0}", ConvertToMinSec(TotalMileAverage(runs)- sdMile).ToString("mm:ss"));
+            sb.AppendFormat(" and {0}", ConvertToMinSec(TotalMileAverage(runs)-sdMile).ToString("mm:ss"));
+            sb.AppendFormat(" -- Usual speed between {0}", (TotalSpeedAverage(runs) - sdSpeed).ToString("F2"));
+            sb.AppendFormat("MPH and {0}", (TotalSpeedAverage(runs) + sdSpeed).ToString("F2"));
+            sb.Append("MPH\n");
+            return sb.ToString();
+        }
+        //still need %whatever for strings
+        public string DisplayDayOfWeekSD(IEnumerable runs)
+        {
+
+            double sdmile = StandardDeviation(runs.Select(x => x.MileAverage));
+            double sdspeed = StandardDeviation(runs.Select(x => x.SpeedAverage));
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(" Usual mile time between {0}", ConvertToMinSec(TotalMileAverage(runs) - sdmile).ToString("mm:ss"));
+            sb.AppendFormat(" and {0}", ConvertToMinSec(TotalMileAverage(runs) + sdmile).ToString("mm:ss"));
+            sb.AppendFormat(" -- Usual speed between {0}", (TotalSpeedAverage(runs) - sdspeed).ToString("F2"));
+            sb.AppendFormat("MPH and {0}", (TotalSpeedAverage(runs) + sdspeed).ToString("F2"));
+            sb.Append("MPH\n");
+            return sb.ToString();
         }
 
     }

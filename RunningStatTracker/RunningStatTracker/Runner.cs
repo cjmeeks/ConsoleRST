@@ -1,4 +1,4 @@
-﻿using System;
+06-;﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,13 +19,22 @@ namespace RunningStatTracker
             list_of_runs = new List<RunEvent>();
         }
 
-        public string Name { get { return name; } }
-        public string Gender { get { return gender; } }
-        public List<RunEvent> Runs{ get { return list_of_runs; } }
-        
+        public string Name => name;
+        public string Gender => gender;
+        public List<RunEvent> Runs => list_of_runs;
+
         public void AddRun(RunEvent run) { list_of_runs.Add(run); }
-        
-        public override string ToString() { return " Name: " + name + " - Gender: " + gender + " - #Runs = " + list_of_runs.Count; }
+
+        //still needs the %string whatever
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(" Name: {0}", name);
+            sb.Append(name);
+            sb.AppendFormat(" - Gender: %s", gender);
+            sb.AppendFormat(" - #Runs = {0}", list_of_runs.Count);
+            return sb.ToString;
+        }
 
 
 
