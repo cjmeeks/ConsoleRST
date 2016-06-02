@@ -77,14 +77,16 @@ namespace RunningStatTracker
             Console.WriteLine();
         }
 
-        
-        public void DisplayRunsByDayOfWeek(DayOfWeek day, List<RunEvent> runs, ref Runner runner)
+
+        public void DisplayRunsByDayOfWeek(DayOfWeek day, List<RunEvent> runs)
         {
+            Console.WriteLine(day.ToString());
             foreach(RunEvent run in runs)
             {
                 Console.WriteLine(run.ToString());
             }
-            Console.WriteLine(day.ToString() + modal.DayOfWeekAverages(day, ref runner));
+            Console.WriteLine("  --" + modal.DayOfWeekAverages(day, runs)+"\n" + modal.DayOfWeekSD(modal.GetRunsByDayOfWeek(day, runs)));
+
         }
 
     }

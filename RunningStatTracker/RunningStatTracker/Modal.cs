@@ -92,17 +92,17 @@ namespace RunningStatTracker
         public double MileAverageForRun(DateTime date, ref Runner runner){return GetRunByDate(date, ref  runner).MileAverage();}
 
         //get overall mile average
-        public double TotalMileAverage(ref Runner runner){return GetMileAverages(ref runner).Average();}
+        public double TotalMileAverage(List<RunEvent> runs) {return GetMileAverages(runs).Average();}
 
         //get overall speed average
-        public double TotalSpeedAverage(ref Runner runner){return GetSpeedAverages(ref runner).Average();}
+        public double TotalSpeedAverage(List<RunEvent> runs) {return GetSpeedAverages(runs).Average();}
 
         //gets mile averages
-        public double[] GetMileAverages(ref Runner runner)
+        public double[] GetMileAverages(List<RunEvent> runs)
         {
-            double[] averages = new double[runner.Runs.Count];
+            double[] averages = new double[runs.Count];
             int i = 0;
-            foreach(RunEvent run in runner.Runs)
+            foreach(RunEvent run in runs)
             {
                 averages[i] = run.MileAverage();
                 i++;
@@ -111,11 +111,11 @@ namespace RunningStatTracker
         }
 
         //get Speed Averages
-        public double[] GetSpeedAverages(ref Runner runner)
+        public double[] GetSpeedAverages(List<RunEvent> runs)
         {
-            double[] averages = new double[runner.Runs.Count];
+            double[] averages = new double[runs.Count];
             int i = 0;
-            foreach(RunEvent run in runner.Runs)
+            foreach(RunEvent run in runs)
             {
                 averages[i] = run.SpeedAverage();
                 i++;
@@ -124,25 +124,36 @@ namespace RunningStatTracker
         }
 
         //get day of week  mile average
-        public double DayOfWeekMileAvg(DayOfWeek date, ref Runner runner)
+        public double DayOfWeekMileAvg(List<RunEvent> runs)
         {
             List<double> averages = new List<double>();
-            foreach(RunEvent x in runner.Runs)
+            foreach(RunEvent run in runs)
             {
-                if(x.Date.DayOfWeek == date)averages.Add(x.MileAverage());
+               averages.Add(run.MileAverage());
             }
             return averages.Average();
         }
 
         //gets day of week speed average
-        public double DayOfWeekSpeedAvg(DayOfWeek date, ref Runner runner)
+        public double DayOfWeekSpeedAvg(List<RunEvent> runs)
         {
             List<double> averages = new List<double>();
-            foreach(RunEvent x in runner.Runs)
+            foreach(RunEvent run in runs)
             {
-                if(x.Date.DayOfWeek == date)averages.Add(x.SpeedAverage());
+                averages.Add(run.SpeedAverage());
             }
             return averages.Average();
+        }
+
+        //gets all the runs by day of the week
+        public List<RunEvent> GetRunsByDayOfWeek(DayOfWeek day, List<RunEvent> runs)
+        {
+            List<RunEvent> list = new List<RunEvent>();
+            foreach(RunEvent run in runs)
+            {
+                if (run.Date.DayOfWeek == day) list.Add(run);
+            }
+            return list;
         }
 
         //get average speed for 1 run
@@ -154,13 +165,13 @@ namespace RunningStatTracker
         //display Totals
         public string Totals(ref Runner runner)
         {
-            return "      Total Time Ran: "  + ConvertToMinSec(TotalTimeRun(ref runner)).ToString("mm:ss") + "  Total Distance Ran: " + TotalDistance(ref runner).ToString("F2") + " Miles  Total Mile Average Time: " + ConvertToMinSec(TotalMileAverage(ref runner)).ToString("mm:ss") +  "  Total Speed Average: " + TotalSpeedAverage(ref runner).ToString("F2") + "MPH";
+            return "      Total Time Ran: "  + ConvertToMinSec(TotalTimeRun(ref runner)).ToString("mm:ss") + " - Total Distance Ran: " + TotalDistance(ref runner).ToString("F2") + " - Miles  Total Mile Average Time: " + ConvertToMinSec(TotalMileAverage(runner.Runs)).ToString("mm:ss") +  " - Total Speed Average: " + TotalSpeedAverage(runner.Runs).ToString("F2") + "MPH";
         }
 
         //computes day of week averages and returns a string for output
-        public string DisplayDayOfWeekAverages(DayOfWeek day, ref Runner runner)
+        public string DayOfWeekAverages(DayOfWeek day, List<RunEvent> runs)
         {
-            return " Average Mile Time: " + ConvertToMinSec(DayOfWeekMileAvg(day, ref runner)).ToString("mm:ss") + "  Average Speed: " + DayOfWeekSpeedAvg(day, ref runner).ToString("F2") + "MPH" + "\n";
+            return " Average Mile Time: " + ConvertToMinSec(DayOfWeekMileAvg(GetRunsByDayOfWeek(day, runs))).ToString("mm:ss") + "  Average Speed: " + DayOfWeekSpeedAvg(GetRunsByDayOfWeek(day, runs)).ToString("F2") + "MPH" + "\n";
         }
 
         //standard deviation formula
@@ -172,9 +183,23 @@ namespace RunningStatTracker
 
         public string SDTotals(ref Runner runner)
         {
-            double sdMile = StandardDeviation(GetMileAverages(ref runner));
-            double sdSpeed = StandardDeviation(GetSpeedAverages(ref runner));
-            return " Ussual mile time between " + ConvertToMinSec(TotalMileAverage(ref runner)- sdMile).ToString("mm:ss") + " and " + ConvertToMinSec(TotalMileAverage(ref runner) + sdMile).ToString("mm:ss") + " ussual speed between " + (TotalSpeedAverage(ref runner) - sdSpeed).ToString("F2") + "MPH and " + (TotalSpeedAverage(ref runner) + sdSpeed).ToString("F2")  + "MPH";
+            double sdMile = StandardDeviation(GetMileAverages(runner.Runs));
+            double sdSpeed = StandardDeviation(GetSpeedAverages(runner.Runs));
+            return "      Usual mile time between " + ConvertToMinSec(TotalMileAverage(runner.Runs)- sdMile).ToString("mm:ss") + " and " + ConvertToMinSec(TotalMileAverage(runner.Runs) + sdMile).ToString("mm:ss") + " -- Usual speed between " + (TotalSpeedAverage(runner.Runs) - sdSpeed).ToString("F2") + "MPH and " + (TotalSpeedAverage(runner.Runs) + sdSpeed).ToString("F2")  + "MPH\n";
+        }
+
+        public string DayOfWeekSD(List<RunEvent> runs)
+        {
+            double[] miletimes = new double[runs.Count];
+            double[] speeds = new double[runs.Count];
+            for(int i = 0; i < runs.Count; i++)
+            {
+                miletimes[0] = runs[0].MileAverage();
+                speeds[0] = runs[0].SpeedAverage();
+            }
+            double sdmile = StandardDeviation(miletimes);
+            double sdspeed = StandardDeviation(speeds);
+            return " Usual mile time between " + ConvertToMinSec(TotalMileAverage(runs) - sdmile).ToString("mm:ss") + " and " + ConvertToMinSec(TotalMileAverage(runs) + sdmile).ToString("mm:ss") + " -- Usual speed between " + (TotalSpeedAverage(runs) - sdspeed).ToString("F2") + "MPH and " + (TotalSpeedAverage(runs) + sdspeed).ToString("F2") + "MPH\n";
         }
 
     }
