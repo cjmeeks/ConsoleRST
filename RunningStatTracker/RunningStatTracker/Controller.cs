@@ -36,17 +36,18 @@ namespace RunningStatTracker
         {
             switch (option)
             {
+                //////
                 case 1:
-                    Runner runner = null;
-                    bool login = input.Login(ref runner);
-                    if (!login) Console.WriteLine("login failed \n");
+                    LoginInfo loginstatus = input.Login();
+                    Runner curRunner = loginstatus.CurRunner;
+                    if (!loginstatus.Status) Console.WriteLine("login failed \n");
                     else
                     {
                         bool exit = false;
                         while (!exit)
                         {
                             output.DisplayRunnerMenu();
-                            RunnerMenu(ref runner, input.AskForRunnerMenuOption(), ref exit);
+                            RunnerMenu(ref curRunner, input.AskForRunnerMenuOption(), ref exit);
                         }
                     }
                     break;
@@ -71,14 +72,15 @@ namespace RunningStatTracker
                     runner.AddRun(input.AskForNewRun());
                     break;
                 case 2:
-                    output.DisplayRuns(ref runner);
+                    output.DisplayRuns(runner.Runs);
                     break;
                 case 3:
-                    output.DisplayRunByDate(input.AskForDate(), ref runner);
+                    DateTime date = input.AskForDate();
+                    output.DisplayRunByDate(date, runner.Runs);
                     break;
                 case 4:
-                    DayOfWeek date = input.AskForDayOfWeek();
-                    output.DisplayRunsByDayOfWeek(date,modal. GetRunsByDayOfWeek(date, runner.Runs));
+                    DayOfWeek day = input.AskForDayOfWeek();
+                    output.DisplayRunsByDayOfWeek(day ,modal. GetRunsByDayOfWeek(day, runner.Runs));
                     break;
                 case 5:
                     exitCode = true;

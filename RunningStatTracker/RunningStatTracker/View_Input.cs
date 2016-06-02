@@ -12,7 +12,7 @@ namespace RunningStatTracker
         private Modal modal;
         public View_Input(Modal modalIn) { modal = modalIn; }
 
-        
+
         public int AskForMainMenuOption()
         {
             bool CorrectInput = false;
@@ -23,7 +23,7 @@ namespace RunningStatTracker
                 option = Convert.ToInt32(Console.ReadLine().Trim());
                 if (option > 0 && option < 5) { CorrectInput = true; break; }
                 Console.WriteLine("Please enter 1-4....");
-            }           
+            }
             return option;
         }
 
@@ -41,14 +41,14 @@ namespace RunningStatTracker
             return option;
         }
 
-        
+
         public string AskForName()
         {
             Console.Write("Name: ");
             return Console.ReadLine();
         }
 
-        
+
         public string AskForGender()
         {
             bool correctInput = false;
@@ -70,7 +70,7 @@ namespace RunningStatTracker
             return Console.ReadLine();
         }
 
-        
+
         public DateTime AskForDate()
         {
             bool correctInput = false;
@@ -82,22 +82,28 @@ namespace RunningStatTracker
                 datearray = date.Split('/');
                 if(datearray.Length == 3) { correctInput = true; break; }
                 Console.WriteLine("Please enter date in the correct format");
-            }         
+            }
             return new DateTime(Convert.ToInt32(datearray[2]), Convert.ToInt32(datearray[0]), Convert.ToInt32(datearray[1]));
         }
 
-        
+
         public void AskForNewRunner() { modal.AddRunner(AskForName(), AskForGender()); Console.WriteLine(); }
 
-        
-        public bool Login(ref Runner runner)
+        //
+        public LoginInfo Login()
         {
-            if (modal.Runners.TryGetValue(AskForName(), out runner)) { Console.WriteLine(); return true; }
-
-            else return false;
+            LoginInfo loginStatus = new LoginInfo();
+            Runner runner = null;
+            if (loginStatus.Status = modal.Runners.TryGetValue(AskForName(), out runner))
+            {
+                Console.WriteLine();
+                loginStatus.CurRunner = runner;
+                return loginStatus;
+            }
+            else return loginStatus;
         }
 
-        
+
         public RunEvent AskForNewRun()
         {
 
@@ -126,7 +132,7 @@ namespace RunningStatTracker
             return new RunEvent(date, timeofrun, distance, terrain);
         }
 
-        
+
         public DayOfWeek AskForDayOfWeek()
         {
             Console.Write("Day of Week(m/tu/w/th/f/sa/sun): ");

@@ -44,11 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
+    <Compile Include="LoginInfo.cs" />
     <Compile Include="Modal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunEvent.cs" />
     <Compile Include="Runner.cs" />
+    <Compile Include="StatsUtil.cs" />
     <Compile Include="View_Input.cs" />
     <Compile Include="View_Output.cs" />
   </ItemGroup>
