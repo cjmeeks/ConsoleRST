@@ -14,6 +14,7 @@ namespace RunningStatTracker
 
         public SortedDictionary<string, Runner> Runners => runners;
 
+        //methods
         public void AddRunner(string name, string gender) { runners.Add(name, new Runner(name, gender)); }
 
         public Runner GetRunnerByName(string name) { return runners[name]; }
@@ -163,12 +164,18 @@ namespace RunningStatTracker
         }
 
         //standard deviation formula
-        public static double StandardDeviation(List<double> values)
+        public static double StandardDeviation(double[] values)
         {
             double avg = values.Average();
             return Math.Sqrt(values.Average(v=>Math.Pow(v-avg,2)));
         }
-        
+
+        public string SDTotals(ref Runner runner)
+        {
+            double sdMile = StandardDeviation(GetMileAverages(ref runner));
+            double sdSpeed = StandardDeviation(GetSpeedAverages(ref runner));
+            return " Ussual mile time between " + ConvertToMinSec(TotalMileAverage(ref runner)- sdMile).ToString("mm:ss") + " and " + ConvertToMinSec(TotalMileAverage(ref runner) + sdMile).ToString("mm:ss") + " ussual speed between " + (TotalSpeedAverage(ref runner) - sdSpeed).ToString("F2") + "MPH and " + (TotalSpeedAverage(ref runner) + sdSpeed).ToString("F2")  + "MPH";
+        }
 
     }
 }

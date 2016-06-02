@@ -27,7 +27,7 @@ namespace RunningStatTracker
         public void AddRun(RunEvent run) { list_of_runs.Add(run); }
 
         //to string
-        public override string ToString() { return " Name: " + name + " Gender: " + gender; }
+        public override string ToString() { return " Name: " + name + " - Gender: " + gender + " - #Runs = " + list_of_runs.Count; }
 
 
 

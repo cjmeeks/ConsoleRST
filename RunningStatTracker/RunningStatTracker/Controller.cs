@@ -74,10 +74,11 @@ namespace RunningStatTracker
                     output.DisplayRuns(ref runner);
                     break;
                 case 3:
-                    output.DisplayRunByDate(input.AskForDate(), runner);
+                    output.DisplayRunByDate(input.AskForDate(), ref runner);
                     break;
                 case 4:
-                    output.DisplayRunByDayOfWeek(input.AskForDayOfWeek(), runner);
+                    DayOfWeek date = input.AskForDayOfWeek();
+                    output.DisplayRunsByDayOfWeek(date,modal. GetRunsByDayOfWeek(date, ref runner), ref runner);
                     break;
                 case 5:
                     exitCode = true;

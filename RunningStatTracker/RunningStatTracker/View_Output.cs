@@ -15,7 +15,7 @@ namespace RunningStatTracker
 
         public void DisplayMainMenu()
         {
-            Console.WriteLine("Main Menu");
+            Console.WriteLine("\n Main Menu");
             Console.WriteLine("1) Login");
             Console.WriteLine("2) Add Runner");
             Console.WriteLine("3) Display Runners");
@@ -45,7 +45,7 @@ namespace RunningStatTracker
                 Console.WriteLine(runner.ToString());
                 runnerNum++;
             }
-            Console.WriteLine("\n" + "\n");
+            Console.WriteLine();
         }
 
         //need
@@ -61,24 +61,30 @@ namespace RunningStatTracker
                 Console.WriteLine(run.ToString());
                 Run_Number++;
             }
+            Console.WriteLine("Totals**");
             Console.WriteLine(modal.Totals(ref runner));
-            Console.WriteLine("\n");
+            Console.Write(modal.SDTotals(ref runner));
+            Console.WriteLine();
 
         }
 
 
-        public void DisplayRunByDate(DateTime date, Runner runner)
+        public void DisplayRunByDate(DateTime date, ref Runner runner)
         {
-            Console.WriteLine("\n" + "\n");
+            Console.WriteLine();
             RunEvent run = modal.GetRunByDate(date, ref runner);
             Console.Write(run.ToString());
-            Console.WriteLine("\n" + "\n");
+            Console.WriteLine();
         }
 
-        //need
-        public void DisplayRunByDayOfWeek(DayOfWeek day, Runner runner)
+        
+        public void DisplayRunsByDayOfWeek(DayOfWeek day, List<RunEvent> runs, ref Runner runner)
         {
-            Console.WriteLine(day.ToString() + modal.DisplayDayOfWeekAverages(day, ref runner));
+            foreach(RunEvent run in runs)
+            {
+                Console.WriteLine(run.ToString());
+            }
+            Console.WriteLine(day.ToString() + modal.DayOfWeekAverages(day, ref runner));
         }
 
     }

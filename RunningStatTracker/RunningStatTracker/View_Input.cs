@@ -39,7 +39,6 @@ namespace RunningStatTracker
                 if (option > 0 && option < 6) { CorrectInput = true; break; }
                 Console.WriteLine("Please enter 1-4....");
             }
-            //Console.WriteLine("\n");
             return option;
         }
 
@@ -66,6 +65,12 @@ namespace RunningStatTracker
             return gender;
         }
 
+        public string AskForTerrain()
+        {
+            Console.Write("Terrain: ");
+            return Console.ReadLine();
+        }
+
         //done
         public DateTime AskForDate()
         {
@@ -78,18 +83,18 @@ namespace RunningStatTracker
                 datearray = date.Split('/');
                 if(datearray.Length == 3) { correctInput = true; break; }
                 Console.WriteLine("Please enter date in the correct format");
-            }
-            Console.WriteLine();
+            }         
             return new DateTime(Convert.ToInt32(datearray[2]), Convert.ToInt32(datearray[0]), Convert.ToInt32(datearray[1]));
         }
 
         //Asks for runner info to add
-        public void AskForNewRunner() { modal.AddRunner(AskForName(), AskForGender()); Console.WriteLine("\n"); }
+        public void AskForNewRunner() { modal.AddRunner(AskForName(), AskForGender()); Console.WriteLine(); }
 
         //done
         public bool Login(ref Runner runner)
         {
-            if (modal.Runners.TryGetValue(AskForName(), out runner)) return true;
+            if (modal.Runners.TryGetValue(AskForName(), out runner)) { Console.WriteLine(); return true; }
+
             else return false;
         }
 
@@ -117,9 +122,9 @@ namespace RunningStatTracker
                 if(distance > 0 && distance < 30) { correctInput = true; break; }
                 Console.WriteLine("Ya right you didnt run {0} miles", distance);
             }
-
+            string terrain = AskForTerrain();
             Console.WriteLine();
-            return new RunEvent(date, timeofrun, distance);
+            return new RunEvent(date, timeofrun, distance, terrain);
         }
 
         //error check
