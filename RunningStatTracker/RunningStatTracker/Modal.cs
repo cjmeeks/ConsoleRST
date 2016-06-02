@@ -39,6 +39,16 @@ namespace RunningStatTracker
             return runs.Where(x => x.Date.DayOfWeek == day);
         }
 
+        public IEnumerable<double> GetMileAverages(IEnumerable<RunEvent> runs)
+        {
+            return runs.Select(x => x.MileAverage);
+        }
+
+        public IEnumerable<double> GetSpeedAverages(IEnumerable<RunEvent> runs)
+        {
+            return runs.Select(x => x.SpeedAverage);
+        }
+
 
     }
 }

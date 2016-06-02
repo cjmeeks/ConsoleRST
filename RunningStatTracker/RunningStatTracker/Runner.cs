@@ -1,4 +1,4 @@
-06-;﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,14 +25,13 @@ namespace RunningStatTracker
 
         public void AddRun(RunEvent run) { list_of_runs.Add(run); }
 
-        //still needs the %string whatever
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat(" Name: {0}", name);
             sb.AppendFormat(" - Gender: %s", gender);
             sb.AppendFormat(" - #Runs = {0}", list_of_runs.Count);
-            return sb.ToString;
+            return sb.ToString();
         }
 
 

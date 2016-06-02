@@ -8,18 +8,17 @@ namespace RunningStatTracker
 {
     class LoginInfo
     {
-        private bool login_status;
-        private Runner runner;
+        private bool status;
+        private Runner currunner;
 
-        public LoginInfo (bool status, Runner runnerIn)
+        public LoginInfo()
         {
-            login_status = status;
-            runner = runnerIn;
+            status = false;
+            currunner = null;
         }
-        public LoginInfo(){}
 
-        public bool Status => login_status;
-        public Runner CurRunner => runner;
+        public bool Status { get { return status; } set { status = value; } }
+        public Runner CurRunner { get { return currunner; } set { currunner = value; } }
     }
 
 }

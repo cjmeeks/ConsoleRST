@@ -93,8 +93,14 @@ namespace RunningStatTracker
         public LoginInfo Login()
         {
             LoginInfo loginStatus = new LoginInfo();
-            if (modal.Runners.TryGetValue(AskForName(), out loginStatus.CurRunner)) { Console.WriteLine(); return ; }
-            else return false;
+            Runner runner = null;
+            if (loginStatus.Status = modal.Runners.TryGetValue(AskForName(), out runner))
+            {
+                Console.WriteLine();
+                loginStatus.CurRunner = runner;
+                return loginStatus;
+            }
+            else return loginStatus;
         }
 
 

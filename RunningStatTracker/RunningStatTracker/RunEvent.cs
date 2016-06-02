@@ -37,16 +37,15 @@ namespace RunningStatTracker
         public double SpeedAverage => speedAverage;
 
         public DateTime ConvertToMinSec(double seconds) { return new DateTime(TimeSpan.FromSeconds(seconds).Ticks); }
-
-        //still needs %string thing
+        
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat(" Date: {0}", time_data.ToString("MM/dd/yyyy"));
             sb.AppendFormat("   Distance: {0}",distance.ToString("F2"));
             sb.AppendFormat(" Miles   Time: {0}", ConvertToMinSec(time_of_run).ToString("mm:ss"));
-            sb.AppendFormat("   Average Mile Time: {0}", ConvertToMinSec(MileAverage()).ToString("mm:ss"));
-            sb.AppendFormat("   Average Speed: {0}", SpeedAverage().ToString("F2"));
+            sb.AppendFormat("   Average Mile Time: {0}", ConvertToMinSec(MileAverage).ToString("mm:ss"));
+            sb.AppendFormat("   Average Speed: {0}", SpeedAverage.ToString("F2"));
             sb.Append("MPH");
             sb.AppendFormat("  Terrain: {0}", terrain);
             return sb.ToString();
