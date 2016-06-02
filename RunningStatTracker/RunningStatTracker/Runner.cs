@@ -22,11 +22,9 @@ namespace RunningStatTracker
         public string Name { get { return name; } }
         public string Gender { get { return gender; } }
         public List<RunEvent> Runs{ get { return list_of_runs; } }
-
-        //add run
+        
         public void AddRun(RunEvent run) { list_of_runs.Add(run); }
-
-        //to string
+        
         public override string ToString() { return " Name: " + name + " - Gender: " + gender + " - #Runs = " + list_of_runs.Count; }
 
 
